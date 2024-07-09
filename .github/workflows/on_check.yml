@@ -13,3 +13,19 @@ jobs:
         echo head branch: ${{ github.event.check_run.check_suite.head_branch }}
         echo app slug: ${{ github.event.check_run.app.slug }}
         echo conclusion: ${{ github.event.check_run.conclusion }}
+  other-step:
+    runs-on: ubuntu-22.04
+    if: >-
+      contains(fromJSON('["cirrus-ci", "sonarqube-next", "sonarcloud", "azure-pipelines"]'), github.event.check_run.app.slug)
+      && ( contains(fromJSON('["main", "master"]'), github.event.check_run.check_suite.head_branch) || startsWith(github.event.check_run.check_suite.head_branch, 'dogfood-') || startsWith(github.event.check_run.check_suite.head_branch, 'branch-') )
+      && github.event.check_run.conclusion != 'success'
+      && github.event.check_run.conclusion != 'cancelled'
+      && github.event.check_run.conclusion != 'skipped'
+      && github.event.check_run.conclusion != 'neutral'
+    steps:
+    - name: Other
+      run: |
+        echo 1: ${{ contains(fromJSON('["cirrus-ci", "sonarqube-next", "sonarcloud", "azure-pipelines"]'), github.event.check_run.app.slug) }}
+        echo 2: ${{ contains(fromJSON('["main", "master"]'), github.event.check_run.check_suite.head_branch) }}
+        echo 3: ${{ startsWith(github.event.check_run.check_suite.head_branch, 'dogfood-') }}
+        echo 4: ${{ startsWith(github.event.check_run.check_suite.head_branch, 'branch-') }}
