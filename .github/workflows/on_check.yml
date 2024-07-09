@@ -1,7 +1,7 @@
 name: On check test
 on:
   check_run:
-    types: [rerequested, completed]
+    types: [rerequested, completed, requested_action, created]
 
 jobs:
   log:
