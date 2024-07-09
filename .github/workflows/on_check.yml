@@ -29,3 +29,9 @@ jobs:
         echo 2: ${{ contains(fromJSON('["main", "master"]'), github.event.check_run.check_suite.head_branch) }}
         echo 3: ${{ startsWith(github.event.check_run.check_suite.head_branch, 'dogfood-') }}
         echo 4: ${{ startsWith(github.event.check_run.check_suite.head_branch, 'branch-') }}
+  other-other-step:
+    permissions:
+      id-token: write  # to authenticate via OIDC
+    uses: SonarSource/gh-action_build-notify/.github/workflows/main.yaml@v1
+    with:
+      slackChannel: dummy-channel
