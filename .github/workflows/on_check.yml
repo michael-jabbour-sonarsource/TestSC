@@ -14,6 +14,7 @@ jobs:
         echo app slug: ${{ github.event.check_run.app.slug }}
         echo conclusion: ${{ github.event.check_run.conclusion }}
   other-step:
+    runs-on: ubuntu-22.04
     if: >-
       contains(fromJSON('["cirrus-ci", "sonarqube-next", "sonarcloud", "azure-pipelines"]'), github.event.check_run.app.slug)
       && ( contains(fromJSON('["main", "master"]'), github.event.check_run.check_suite.head_branch) || startsWith(github.event.check_run.check_suite.head_branch, 'dogfood-') || startsWith(github.event.check_run.check_suite.head_branch, 'branch-') )
