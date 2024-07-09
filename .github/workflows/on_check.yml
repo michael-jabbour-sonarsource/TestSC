@@ -1,0 +1,15 @@
+name: On check test
+on:
+  check_run:
+    types: [rerequested, completed]
+
+jobs:
+  log:
+    name: Log info
+    runs-on: ubuntu-22.04
+    steps:
+    - name: Log github even info
+      run: |
+        echo head branch: ${{ github.event.check_run.check_suite.head_branch }}
+        echo app slug: ${{ github.event.check_run.app.slug }}
+        echo conclusion: ${{ github.event.check_run.conclusion }}
