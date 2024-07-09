@@ -1,0 +1,23 @@
+name: Push empty commit
+on:
+  workflow_dispatch: # This allows manual triggering of the workflow
+      inputs:
+        BRANCH:
+          description: 'branch'
+          required: false
+          default: 'dogfood-on-peach'
+
+jobs:
+  push:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.inputs.BRANCH }}
+    - name: Push empty commit
+      run: |
+        git config --global user.email "non-existent@example.com"
+        git config --global user.name "Non Existent"
+        git commit --allow-empty -m "Triggering the workflow"
+        git push
